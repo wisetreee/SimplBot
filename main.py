@@ -9,5 +9,6 @@ bot.set_webhook()
 def main(message):
     bot.send_message(message.chat.id, 'Здарова заебал')
     bot.send_message(message.chat.id, 'кукубиби')
+    bot.send_message(message.chat.id, 'хабиби хамуда')
 
 bot.polling(non_stop=True)
