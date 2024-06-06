@@ -12,3 +12,4 @@ def main(message):
     bot.send_message(message.chat.id, 'хабиби хамуда')
 
 bot.polling(non_stop=True)
+a=5
