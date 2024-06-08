@@ -6,10 +6,9 @@ bot.set_webhook()
 
 
 msg_markup=types.InlineKeyboardMarkup() 
-shop_button = types.InlineKeyboardButton('Магазин',url="https://google.com/")
-# webUrl = types.WebAppInfo("https://google.com/")
-# shop_button = types.InlineKeyboardButton('Магазин',web_app=webUrl)
-# shop_button = types.InlineKeyboardButton('Магазин',web_app=webUrl)
+# shop_button = types.InlineKeyboardButton('Магазин',url="https://google.com/")
+webUrl = types.WebAppInfo("https://github.com/wisetreee/SimplBot/blob/main/react-app/public/index.html")
+shop_button = types.InlineKeyboardButton('Магазин',web_app=webUrl)
 msg_markup.add(shop_button)
 
 
