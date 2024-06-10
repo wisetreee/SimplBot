@@ -1,5 +1,23 @@
 import telebot
 from telebot import types
+import psycopg2
+
+
+try:
+    connection = psycopg2.connect(
+        host='localhost',
+        user='postgres',
+        password='123',
+        database='SimplDB'
+      )
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT version();")
+        print(f"Server version {cursor.fetchone()}")
+except Exception as _ex:
+    print('Error with work PostgreSQL',_ex)
+
+
+# ----------------------
 TOKEN = '7409866729:AAFOHZ51bByoojzbKA_5IDGT8MFb9oO3BYE'
 bot = telebot.TeleBot(TOKEN)
 bot.set_webhook()
