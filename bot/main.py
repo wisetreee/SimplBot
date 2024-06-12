@@ -1,6 +1,6 @@
 import telebot
 from telebot import types
-from backend import data
+from bot.DBService import data
 
 
 
