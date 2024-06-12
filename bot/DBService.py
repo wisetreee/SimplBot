@@ -14,20 +14,26 @@ try:
 except Exception as _ex:
     print('Error with work PostgreSQL',_ex)
 
-class Item:
-    def __init__(self, name, price, stock):
+# TODO
+# переписать в соответсвии с синтаксисом sqlalchemy по новой базе данных(ссылка в группе)
+# примеры в producte и usere
+#   
+class Product:
+    def __init__(self, id, name, price):
+        self.id = id 
         self.name = name
         self.price = price
-        self.stock = stock
+        #ссылка на товар
 
-    def is_available(self):
-        return self.stock > 0
-
-class Customer:
-    def __init__(self, balance):
+class User:
+    def __init__(self,id, fist_name, last_name, phone_number, balance, role_id):
+        self.id = id
+        self.fist_name = fist_name
+        self.fist_name = last_name
+        self.phone_number = phone_number
         self.balance = balance
-        self.cart = []
-
+        self.role_id = role_id
+#TODO переписать метод
     def deposit_balance(self, amount):
         self.balance += amount
 
@@ -38,37 +44,5 @@ class Customer:
         else:
             return False
 
-    def add_to_cart(self, item):
-        if item.is_available():
-            self.cart.append(item)
-            return True
-        else:
-            return False
-
-    def purchase_items(self):
-        total_cost = sum(item.price for item in self.cart)
-        if self.withdraw_funds(total_cost):
-            for item in self.cart:
-                item.stock -= 1
-            self.cart.clear()
-            return True
-        else:
-            return False
-
-# Пример использования
-inventory = [Item('Книга', 300, 10), Item('Часы', 5000, 5)]
-customer = Customer(10000)
-
-# Покупатель добавляет средства на свой баланс
-customer.add_funds(5000)
-
-# Покупатель добавляет товар в корзину
-customer.add_to_cart(inventory[0])  # Книга
-
-# Покупатель совершает покупку
-if customer.purchase_items():
-    print('Покупка совершена успешно')
-else:
-    print('Недостаточно средств или товара нет в наличии')
 
     
