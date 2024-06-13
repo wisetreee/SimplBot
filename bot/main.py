@@ -1,6 +1,5 @@
 import telebot
 from telebot import types
-from bot.DBService import data
 
 
 
@@ -9,7 +8,7 @@ TOKEN = '7409866729:AAFOHZ51bByoojzbKA_5IDGT8MFb9oO3BYE'
 bot = telebot.TeleBot(TOKEN)
 bot.set_webhook()
 
-webAppLink = types.WebAppInfo("https://ru.wikipedia.org/wiki/Путин,_Владимир_Владимирович") #ссылка на наше веб-приложение
+webAppLink = types.WebAppInfo("https://frontend--singular-melba-c0caef.netlify.app/") #ссылка на наше веб-приложение
 
 def webAppMessageButton(): 
    msg_markup=types.InlineKeyboardMarkup() 
