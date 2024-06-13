@@ -4,8 +4,8 @@ try:
     connection = psycopg2.connect(
         host='localhost',
         user='postgres',
-        password='123',
-        database='SimplDB'
+        password='masterkey',
+        database='SIMPLDB'
       )
     with connection.cursor() as cursor:
         cursor.execute("SELECT version();")
