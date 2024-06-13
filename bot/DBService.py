@@ -15,30 +15,34 @@ except Exception as _ex:
     print('Error with work PostgreSQL',_ex)  
 
 class Status:
-    def __init__(self, id, name):
-        self.id = id
+    id = 0
+    def __init__(self, name):
         self.name = name
+        Status.id += 1
 
 class Role:
-    def __init__(self, id, name):
-        self.id = id
+    id = 0
+    def __init__(self, name):
         self.name = name
+        Role.id += 1
 
 class Product:
-    def __init__(self, id, name, description, price):
-        self.id = id 
+    id = 0
+    def __init__(self, name, description, price):
         self.name = name
         self.description = description
         self.price = price
+        Product.id += 1
         #ссылка на товар
 
 class User:
-    def __init__(self, id, fist_name, last_name, phone_number, balance):
-        self.id = id
+    id = 0
+    def __init__(self, fist_name, last_name, phone_number, balance):
         self.fist_name = fist_name
         self.fist_name = last_name
         self.phone_number = phone_number
         self.balance = balance
+        User.id += 1
     role_id = Role.id
 
 #TODO переписать метод
@@ -54,26 +58,32 @@ class User:
             return False
 
 class Achievement:
-    def __init__(self, id, name, description, reward):
+    id = 0
+    def __init__(self, name, description, reward):
         self.id = id
         self.name = name
         self.description = description
         self.reward = reward
+        Achievement.id += 1
 
 class Reques_for_coins:
-    def __init__(self, id, employee_comment, hr_comment):
+    id = 0
+    def __init__(self, employee_comment, hr_comment):
         self.id = id
         self.employee_comment = employee_comment
         self.hr_comment = hr_comment
+        Reques_for_coins.id += 1
     id_user = User.id
     id_product = Product.id
     id_status = Status.id
 
 class Request_for_merch:
-    def __init__(self, id, employee_comment, hr_comment):
+    id = 0
+    def __init__(self, employee_comment, hr_comment):
         self.id = id
         self.employee_comment = employee_comment
         self.hr_comment = hr_comment
+        Request_for_merch.id += 1
     id_user = User.id
     id_achievement = Achievement.id
     id_status = Status.id
