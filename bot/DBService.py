@@ -33,7 +33,7 @@ class Product:
         #ссылка на товар
 
 class User:
-    def __init__(self, id, fist_name, last_name, phone_number, balance, role_id):
+    def __init__(self, id, fist_name, last_name, phone_number, balance):
         self.id = id
         self.fist_name = fist_name
         self.fist_name = last_name
