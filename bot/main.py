@@ -2,9 +2,7 @@ import telebot
 from telebot import types
 from flask import Flask, request, jsonify
 
-
 app = Flask(__name__)
-
 
 TOKEN = '7409866729:AAFOHZ51bByoojzbKA_5IDGT8MFb9oO3BYE'
 bot = telebot.TeleBot(TOKEN)
