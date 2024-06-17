@@ -1,14 +1,26 @@
 import telebot
 from telebot import types
+from flask import Flask, request, jsonify
 
 
+app = Flask(__name__)
 
-# ----------------------
+
 TOKEN = '7409866729:AAFOHZ51bByoojzbKA_5IDGT8MFb9oO3BYE'
 bot = telebot.TeleBot(TOKEN)
 bot.set_webhook()
 
+
 webAppLink = types.WebAppInfo("https://frontend--singular-melba-c0caef.netlify.app/") #ссылка на наше веб-приложение
+
+# ----------------------
+@app.route('/api/getBalance', methods=['GET'])
+def get_balance():
+   balance = 40
+   return jsonify({"balance": balance})
+
+
+
 
 def webAppMessageButton(): 
    msg_markup=types.InlineKeyboardMarkup() 
@@ -33,14 +45,21 @@ def app(message):
    bot.send_message(message.chat.id, 'Ссылка на магазин ', reply_markup=webAppMessageButton())
    bot.delete_message(message.chat.id, message.message_id)
 
-@bot.message_handler(commands=['sql'])
-def sql(message):
-   bot.send_message(message.chat.id, data)
-   bot.delete_message(message.chat.id, message.message_id)
+# @bot.message_handler(commands=['sql'])
+# def sql(message):
+#    bot.send_message(message.chat.id, data)
+#    bot.delete_message(message.chat.id, message.message_id)
 
 @bot.message_handler(content_types='text')
 def deny(message):
     bot.delete_message(message.chat.id, message.message_id)
     bot.send_message(message.chat.id, "Такой команды не существует.")
 
+
+
+
+
 bot.polling(non_stop=True)
+
+if __name__ == '__main__':
+    app.run(debug=True, port=5000)

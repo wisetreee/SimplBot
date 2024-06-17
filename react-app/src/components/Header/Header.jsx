@@ -1,11 +1,11 @@
 import React from'react';
 
-const Header = () => {
+const Header = ({ balance, title }) => {
     return (
-    <div className='header'>
-
-
-
-    </div>
-    )
-}
+      <header>
+        <h1>{title}</h1>
+        {balance !== null ? <span>{balance}</span> : <span>Загрузка...</span>}
+      </header>
+    );
+  };
+  export default Header;

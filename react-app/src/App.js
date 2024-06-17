@@ -1,7 +1,11 @@
 
 import './App.css';
 import { useEffect } from 'react';
-const tg = window.Telegram.WebApp;
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+
+import MainPage from './MainPage'; 
+
+
 
 function App() {
 
@@ -10,16 +14,18 @@ useEffect (()=> {
 }, [])
 
 
-const OnClose =() => {
-  tg.close()
-}
 
-  return (
-    <div className="App">
-      Добро пожаловать!
-      <button onClick={OnClose}>Закрыть</button>
-    </div>
-  );
+
+return (
+  <Router>
+    <Routes>
+      <Route path="/" element={<MainPage />} />
+      {/* <Route path="/create" element={<CreateRequestPage />} /> */}
+    </Routes>
+  </Router>
+);
+
+
 }
 
 export default App;
