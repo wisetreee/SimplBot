@@ -1,5 +1,4 @@
-import React from'react';
-
+import React, { useState, useEffect } from 'react';
 const Header = ({ title }) => {
   
   const [balance, setBalance] = useState(null); 

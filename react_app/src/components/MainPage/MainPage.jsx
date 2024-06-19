@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../Header/Header';
-import  './MainPage.css';
+// import  './MainPage.css';
 
 const MainPage = () => {
   // const [balance, setBalance] = useState(null); //Функция, подсчитывающая баланс
@@ -27,6 +27,7 @@ const MainPage = () => {
 
   return (
     <div>
+      
       <Header title="Мои заявки" />
       <button onClick={() => navigate('/create')}>Создать заявку</button>
       <p>Тут пусто...пока</p>
