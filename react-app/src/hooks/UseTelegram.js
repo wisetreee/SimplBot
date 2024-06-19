@@ -20,7 +20,6 @@ export function UseTelegram() {
         TgClose,
         ToggleMainButton,
         tg,
-        user: tg.initDataUnsafe?.user,
       }
 }
 
