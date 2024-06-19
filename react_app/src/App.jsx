@@ -21,7 +21,7 @@ return (
 <div className="App">
 
     <Routes>
-      <Route path="/" element={<MainPage />} />
+      <Route index element={<MainPage />} />
       {/* <Route index element={<div>No page is selected.</div> } /> */}
       {/* <Route path="/create" element={<CreateRequestPage />} /> */}
      </Routes>
