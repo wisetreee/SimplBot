@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 const Header = ({ title }) => {
   
-  const [balance, setBalance] = useState(null); 
+  const [balance, setBalance] = useState(null);  
   useEffect(() => { //при обновлении страницы будет вычисляться баланс
     const fetchBalance = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/getBalance');
+        const response = await fetch('https://simplbot.loca.lt/api/getBalance');
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
