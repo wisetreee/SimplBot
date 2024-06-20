@@ -3,13 +3,13 @@ from telebot import types
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
-app = Flask(__name__) # инициализация Flask-приложения
+app = Flask(__name__, static_folder="react_app") # инициализация Flask-приложения
 CORS(app) 
 
 @app.route('/api/getBalance', methods=['GET']) # При запросе на https://simplbot.loca.lt/api/getBalance возвращается JSON-файл со значением 40
 def get_balance():
-   balance = 40
-   return jsonify({"balance": balance})
+   balance = {"balance": 40}
+   return jsonify(balance)
 
 
 
