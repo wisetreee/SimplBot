@@ -53,27 +53,5 @@ class User:
         else:
             return False
 
-class Achievement:
-    def __init__(self, id, name, description, reward):
-        self.id = id
-        self.name = name
-        self.description = description
-        self.reward = reward
 
-class Reques_for_coins:
-    def __init__(self, id, employee_comment, hr_comment):
-        self.id = id
-        self.employee_comment = employee_comment
-        self.hr_comment = hr_comment
-    id_user = User.id
-    id_product = Product.id
-    id_status = Status.id
-
-class Request_for_merch:
-    def __init__(self, id, employee_comment, hr_comment):
-        self.id = id
-        self.employee_comment = employee_comment
-        self.hr_comment = hr_comment
-    id_user = User.id
-    id_achievement = Achievement.id
-    id_status = Status.id
+    
