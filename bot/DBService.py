@@ -79,4 +79,4 @@ class role(Base):
 engine = create_engine(db, echo  =True)
 #класс сессии
 Session = sessionmaker(autoflush=False, bind = engine)
-user = session.query(Users).get(1)
+user = Session.query(Users).get(1)
