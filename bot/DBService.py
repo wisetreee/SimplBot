@@ -1,4 +1,6 @@
 import psycopg2
+from sqlalchemy import create_engine, MetaData, Table, Integer, Column, ForeignKey, Numeric, String
+from sqlalchemy.ext.declarative import declarative_base
 
 try:
     connection = psycopg2.connect(
@@ -14,44 +16,56 @@ try:
 except Exception as _ex:
     print('Error with work PostgreSQL',_ex)  
 
-class Status:
-    def __init__(self, id, name):
-        self.id = id
-        self.name = name
+Base = declarative_base()
 
-class Role:
-    def __init__(self, id, name):
-        self.id = id
-        self.name = name
+class Products(Base):
+    __tablename__ = 'products'
+    id = Column(Integer, primary_key =True)
+    name = Column(String(100), nullable = False)
+    description = Column(String(100), nullable = False)
+    cost = Column(Integer, nullable = False)
+    link = Column(String, nullable = False)
 
-class Product:
-    def __init__(self, id, name, description, price):
-        self.id = id 
-        self.name = name
-        self.description = description
-        self.price = price
-        #ссылка на товар
+class Users(Base):
+    __tablename__ = 'users'
+    id = Column(Integer, primary_key =True)
+    fist_name = Column(String(100), nullable = False)
+    last_name = Column(String(100), nullable = False)
+    telephone = Column(String(100), nullable = False) # проверить тип атрибута и нужно ли номер вообще использовать
+    balance = Column(Integer, nullable = False)
+    id_role = Column(Integer, ForeignKey('role.id')) # нужно название таблицы на которую ссылается внешний ключ
 
-class User:
-    def __init__(self, id, fist_name, last_name, phone_number, balance):
-        self.id = id
-        self.fist_name = fist_name
-        self.fist_name = last_name
-        self.phone_number = phone_number
-        self.balance = balance
-    role_id = Role.id
+class Achievements(Base):
+    __tablename__ = 'achievements'
+    id = Column(Integer, primary_key =True)
+    name = Column(String(100), nullable = False)
+    description = Column(String(100), nullable = False)
+    prise = Column(Integer, nullable = False)
 
-#TODO переписать метод
+class Request_for_merch(Base):
+    __tablename__ = 'request_for_merch'
+    id = Column(Integer, primary_key =True)
+    id_user = Column(Integer, ForeignKey('users.id'))
+    id_product = Column(Integer, ForeignKey('products.id'))
+    comment_hr = Column(String, nullable = False)
+    comment_s = Column(String, nullable = False)
+    id_status = Column(Integer, ForeignKey('status.id'))
 
-    def deposit_balance(self, amount):
-        self.balance += amount
+class Request_for_coin(Base):
+    __tablename__ = 'request_for_coin'
+    id = Column(Integer, primary_key =True)
+    id_user = Column(Integer, ForeignKey('users.id')) 
+    id_achievements = Column(Integer, ForeignKey('achievements.id'))
+    comment_hr = Column(String, nullable = False)
+    comment_s = Column(String, nullable = False)
+    id_status = Column(Integer, ForeignKey('status.id'))
 
-    def withdraw_balance(self, amount):
-        if amount <= self.balance:
-            self.balance -= amount
-            return True
-        else:
-            return False
+class status(Base):
+    __tablename__ = 'status'
+    id = Column(Integer, primary_key =True)
+    status_name = Column(String, nullable = False)
 
-
-    
+class role(Base):
+    __tablename__ = 'status'
+    id = Column(Integer, primary_key =True)
+    role_name = Column(String, nullable = False)
