@@ -1,6 +1,10 @@
 import psycopg2
-from sqlalchemy import create_engine, MetaData, Table, Integer, Column, ForeignKey, Numeric, String
+from sqlalchemy import session, create_engine, MetaData, Table, Integer, Column, ForeignKey, Numeric, String
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+
+#строка подключения
+#db = ""
 
 try:
     connection = psycopg2.connect(
@@ -69,3 +73,10 @@ class role(Base):
     __tablename__ = 'status'
     id = Column(Integer, primary_key =True)
     role_name = Column(String, nullable = False)
+
+
+#какой-то движок алхеми
+engine = create_engine(db, echo  =True)
+#класс сессии
+Session = sessionmaker(autoflush=False, bind = engine)
+user = session.query(Users).get(1)
