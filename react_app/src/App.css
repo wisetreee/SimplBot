@@ -1,11 +1,30 @@
-/* * {
+ * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 
 }
 
-body {
-  background: var(--tg-theme-bg-color);
-  color: var(--tg-theme-text-color);
-} */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  /* Браузер сначала попробует найти шрифт локально */
+  src: local("Inter"),
+       /* Если не получилось, загрузит woff2 */
+       url("/fonts/roboto.woff2") format("truetype"),
+
+}
+.App {
+  font-family: Inter;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f9f9f9;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../Header/Header';
+import Button from '../Button/Button';
 // import  './MainPage.css';
 
 const MainPage = () => {
@@ -13,7 +14,7 @@ const MainPage = () => {
     <div>
       
       <Header title="Мои заявки" />
-      <button onClick={() => navigate('/create')}>Создать заявку</button>
+      <Button text="Создать заявку" onClick={() => navigate('/create')}/>
       <p>Тут пусто...пока</p>
     </div>
   );

@@ -1,4 +1,21 @@
-/* .header {
-    color: var(--tg-theme-button-text-color);
+.Header {
+  width: 100%;
+  left: 15px;
+  right: 15px;
+  height: 74px;
+  background-color: #fff;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+  
+}
 
-} */
+.Header h1 {
+  font-size: 16px;
+  margin: 0;
+
+
+}
