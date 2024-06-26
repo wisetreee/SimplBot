@@ -1,4 +1,5 @@
 import telebot
+import DBService
 from telebot import types
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -8,7 +9,8 @@ CORS(app)
 
 @app.route('/api/getBalance', methods=['GET']) # При запросе на https://simplbot.loca.lt/api/getBalance возвращается JSON-файл со значением 40
 def get_balance():
-   balance = {"balance": 40}
+   id = int(request.args.get('user_id'))
+   balance = DBService.get_balance(id)[0] # Метод возвращает список словарей. Что делать, если строк в таблице несколько для одного айдишника?
    return jsonify(balance)
 
 

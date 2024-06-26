@@ -5,95 +5,112 @@ from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Session
 
 #строка подключения
-post_db = "postgresql://postgres:123@localhost/SimplDB"
+post_db = "postgresql://postgres:masterkey@localhost/SIMPLdb"
 
-# try:
-#     connection = psycopg2.connect(
-#         host='localhost',
-#         user='postgres',
-#         password='123',
-#         database='SimplDB'
-#       )
-#     with connection.cursor() as cursor:
-#         cursor.execute("SELECT version();")
-#         data=cursor.fetchone()
-#         print(f"Server version {cursor.fetchone()}")
-# except Exception as _ex:
-#     print('Error with work PostgreSQL',_ex)  
 #какой-то движок алхеми
 engine = create_engine(post_db, echo  =True)
 
 class Base(DeclarativeBase): pass
 class Products(Base):
     __tablename__ = 'products'
-    id = Column(Integer, primary_key =True)
+    id_product = Column(Integer, primary_key =True)
     name = Column(String(100), nullable = False)
     description = Column(String(100), nullable = False)
-    cost = Column(Integer, nullable = False)
-    link = Column(String, nullable = False)
+    price = Column(Integer, nullable = False)
+    linktofile = Column(String, nullable = False)
 
 class Users(Base):
     __tablename__ = 'users'
-    id = Column(Integer, primary_key =True)
-    fist_name = Column(String(100), nullable = False)
-    last_name = Column(String(100), nullable = False)
+    id_user = Column(Integer, primary_key =True)
+    name = Column(String(100), nullable = False)
+    lastname = Column(String(100), nullable = False)
     telephone = Column(String(100), nullable = False) # проверить тип атрибута и нужно ли номер вообще использовать
     balance = Column(Integer, nullable = False)
-    id_role = Column(Integer, ForeignKey('role.id')) # нужно название таблицы на которую ссылается внешний ключ
+    id_role = Column(Integer, ForeignKey('role.id_role')) # нужно название таблицы на которую ссылается внешний ключ
+
+    def Get_dictionary(this):
+        return {"id_user": this.id_user, "name": this.name, "lastname": this.lastname, "telephone": this.telephone, "balance": this.balance, "id_role": this.id_role}
+
+    def Get_description(this):
+        return f"{this.id_user} {this.name} {this.lastname} {this.telephone} {this.balance} {this.id_role}"
 
 class Achievements(Base):
     __tablename__ = 'achievements'
-    id = Column(Integer, primary_key =True)
+    id_achievement = Column(Integer, primary_key =True)
     name = Column(String(100), nullable = False)
     description = Column(String(100), nullable = False)
-    prise = Column(Integer, nullable = False)
+    prize = Column(Integer, nullable = False)
+
+    def Get_description(this):
+        return f"{this.id_achievement} {this.name} {this.description} {this.prize}"
 
 class Request_for_merch(Base):
     __tablename__ = 'request_for_merch'
-    id = Column(Integer, primary_key =True)
-    id_user = Column(Integer, ForeignKey('users.id'))
-    id_product = Column(Integer, ForeignKey('products.id'))
+    id_request_for_merch = Column(Integer, primary_key =True)
+    id_user = Column(Integer, ForeignKey('users.id_user'))
+    id_product = Column(Integer, ForeignKey('products.id_product'))
     comment_hr = Column(String, nullable = False)
     comment_s = Column(String, nullable = False)
-    id_status = Column(Integer, ForeignKey('status.id'))
+    id_status = Column(Integer, ForeignKey('status.id_status'))
+
+    def Get_description(this):
+        return f"{this.id_request_for_merch} {this.id_user} {this.id_product} {this.comment_hr} {this.comment_s} {this.id_status}"
 
 class Request_for_coin(Base):
     __tablename__ = 'request_for_coin'
-    id = Column(Integer, primary_key =True)
-    id_user = Column(Integer, ForeignKey('users.id')) 
-    id_achievements = Column(Integer, ForeignKey('achievements.id'))
+    id_request_for_coin = Column(Integer, primary_key =True)
+    id_user = Column(Integer, ForeignKey('users.id_user')) 
+    id_achievement = Column(Integer, ForeignKey('achievements.id_achievement'))
     comment_hr = Column(String, nullable = False)
     comment_s = Column(String, nullable = False)
-    id_status = Column(Integer, ForeignKey('status.id'))
+    id_status = Column(Integer, ForeignKey('status.id_status'))
+
+    def Get_description(this):
+        return f"{this.id_request_for_coin} {this.id_user} {this.id_achievement} {this.comment_hr} {this.comment_s} {this.id_status}"
 
 class Status(Base):
     __tablename__ = 'status'
-    id = Column(Integer, primary_key =True)
+    id_status = Column(Integer, primary_key =True)
     status_name = Column(String, nullable = False)
+
+    def Get_description(this):
+        return f"{this.id_status} {this.status_name}"
 
 class Role(Base):
     __tablename__ = 'role'
     id_role = Column(Integer, primary_key =True)
     pole_name = Column(String, nullable = False)
 
+    def Get_description(this):
+        return f"{this.id_role} {this.pole_name}"
+
 
 # Base.metadata.create_all(bind=engine)
 #класс сессии
 # Session = sessionmaker(autoflush=False, bind = engine)
 # user = Session.query(Users).get(1)
-with Session(autoflush=False, bind=engine) as db:
-    prod= db.query(Role).all()
-    for p in prod:
-        print(f'{p.id_role}.{p.pole_name}')
 
-#Функция запроса баланса
-def balance():
+def get_balance(user_id):
+    with Session(autoflush=False, bind=engine) as db:
+        users = db.query(Users).filter_by(id_user = user_id)
+        users = [user.Get_dictionary() for user in users] # переписывать остальные методы также?
+        return users
 
-#  занесение заявки в БД 
-def ins():
+def insert_request_for_coins(user, achievement, comment_sotr, status):
+    with Session(autoflush=False, bind=engine) as db:
+        req = Request_for_coin(id_user = user, id_achievement = achievement, comment_s = comment_sotr, id_status = status)
+        db.add(req)
+        db.commit()
 
-#вывод заявки по запросу  из бд
-def vivod():
+def get_request_for_coins(user_id):
+    with Session(autoflush=False, bind=engine) as db:
+        coins= list(db.query(Request_for_coin).filter_by(id_user = user_id))
+        return coins
 
-# Вывести строки подключения к БД в appsettings
-def srt():
+def get_request_for_merch(user_id):
+    with Session(autoflush=False, bind=engine) as db:
+        merch= list(db.query(Request_for_merch).filter_by(id_user = user_id))
+        return merch
+
+print(get_request_for_coins(2)[1].Get_description())
+
