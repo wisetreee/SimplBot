@@ -93,7 +93,7 @@ class Role(Base):
 def get_balance(user_id):
     with Session(autoflush=False, bind=engine) as db:
         users = db.query(Users).filter_by(id_user = user_id)
-        users = [user.Get_dictionary() for user in users] # переписывать остальные методы также?
+        users = [user.Get_dictionary() for user in users]
         return users
 
 def insert_request_for_coins(user, achievement, comment_sotr, status):
@@ -104,12 +104,14 @@ def insert_request_for_coins(user, achievement, comment_sotr, status):
 
 def get_request_for_coins(user_id):
     with Session(autoflush=False, bind=engine) as db:
-        coins= list(db.query(Request_for_coin).filter_by(id_user = user_id))
+        coins = list(db.query(Request_for_coin).filter_by(id_user = user_id))
+        coins = [coin.Get_dictionary() for coin in coins]
         return coins
 
 def get_request_for_merch(user_id):
     with Session(autoflush=False, bind=engine) as db:
-        merch= list(db.query(Request_for_merch).filter_by(id_user = user_id))
+        merch = list(db.query(Request_for_merch).filter_by(id_user = user_id))
+        merch = [m.Get_dictionary() for m in merch]
         return merch
 
 print(get_request_for_coins(2)[1].Get_description())
