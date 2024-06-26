@@ -1,27 +1,29 @@
 import psycopg2
-from sqlalchemy import session, create_engine, MetaData, Table, Integer, Column, ForeignKey, Numeric, String
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy import create_engine, MetaData, Table, Integer, Column, ForeignKey, Numeric, String
+# from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import DeclarativeBase
+from sqlalchemy.orm import Session
 
 #строка подключения
-#db = ""
+post_db = "postgresql://postgres:123@localhost/SimplDB"
 
-try:
-    connection = psycopg2.connect(
-        host='localhost',
-        user='postgres',
-        password='123',
-        database='SimplDB'
-      )
-    with connection.cursor() as cursor:
-        cursor.execute("SELECT version();")
-        data=cursor.fetchone()
-        print(f"Server version {cursor.fetchone()}")
-except Exception as _ex:
-    print('Error with work PostgreSQL',_ex)  
+# try:
+#     connection = psycopg2.connect(
+#         host='localhost',
+#         user='postgres',
+#         password='123',
+#         database='SimplDB'
+#       )
+#     with connection.cursor() as cursor:
+#         cursor.execute("SELECT version();")
+#         data=cursor.fetchone()
+#         print(f"Server version {cursor.fetchone()}")
+# except Exception as _ex:
+#     print('Error with work PostgreSQL',_ex)  
+#какой-то движок алхеми
+engine = create_engine(post_db, echo  =True)
 
-Base = declarative_base()
-
+class Base(DeclarativeBase): pass
 class Products(Base):
     __tablename__ = 'products'
     id = Column(Integer, primary_key =True)
@@ -64,19 +66,34 @@ class Request_for_coin(Base):
     comment_s = Column(String, nullable = False)
     id_status = Column(Integer, ForeignKey('status.id'))
 
-class status(Base):
+class Status(Base):
     __tablename__ = 'status'
     id = Column(Integer, primary_key =True)
     status_name = Column(String, nullable = False)
 
-class role(Base):
-    __tablename__ = 'status'
-    id = Column(Integer, primary_key =True)
-    role_name = Column(String, nullable = False)
+class Role(Base):
+    __tablename__ = 'role'
+    id_role = Column(Integer, primary_key =True)
+    pole_name = Column(String, nullable = False)
 
 
-#какой-то движок алхеми
-engine = create_engine(db, echo  =True)
+# Base.metadata.create_all(bind=engine)
 #класс сессии
-Session = sessionmaker(autoflush=False, bind = engine)
-user = Session.query(Users).get(1)
+# Session = sessionmaker(autoflush=False, bind = engine)
+# user = Session.query(Users).get(1)
+with Session(autoflush=False, bind=engine) as db:
+    prod= db.query(Role).all()
+    for p in prod:
+        print(f'{p.id_role}.{p.pole_name}')
+
+#Функция запроса баланса
+def balance():
+
+#  занесение заявки в БД 
+def ins():
+
+#вывод заявки по запросу  из бд
+def vivod():
+
+# Вывести строки подключения к БД в appsettings
+def srt():

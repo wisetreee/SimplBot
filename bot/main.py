@@ -2,7 +2,7 @@ import telebot
 from telebot import types
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-
+from DBService import p
 app = Flask(__name__, static_folder="react_app") # инициализация Flask-приложения
 CORS(app) 
 
@@ -37,7 +37,7 @@ def webAppKeyboard():
 
 @bot.message_handler(commands=['start'])
 def start(message):
-   bot.send_message( message.chat.id, 'Привет, я SimplBot, твой помощник для работы c валютой SimplCoin!\nЗапустить приложение можно по кнопке ниже или с помощью команды /app.', parse_mode="Markdown", reply_markup=webAppKeyboard())
+   bot.send_message( message.chat.id, 'Привет, я SimplBot, твой помощник для работы c валютой SimplCoin!\nЗапустить приложение можно по кнопке ниже или с помощью команды /app.',parse_mode="Markdown", reply_markup=webAppKeyboard())
    bot.delete_message(message.chat.id, message.message_id)
 
 @bot.message_handler(commands=['app'])
@@ -54,8 +54,6 @@ def app(message):
 def deny(message):
     bot.delete_message(message.chat.id, message.message_id)
     bot.send_message(message.chat.id, "Такой команды не существует.")
-
-
 
 
 
