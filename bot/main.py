@@ -5,6 +5,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from DBService import p
 from configparser import ConfigParser
+import json
 app = Flask(__name__, static_folder="react_app") # инициализация Flask-приложения
 CORS(app) 
 
@@ -14,12 +15,16 @@ def get_balance():
    balance = DBService.get_balance(id)[0] # Метод возвращает список словарей. Что делать, если строк в таблице несколько для одного айдишника?
    return jsonify(balance)
 
+with open('bot/config.json') as file:
+    token = json.load(file) 
+    post_db = token['TOKEN']
+    
+# парсер не может строку распарсить с URL БД    
+# config = ConfigParser()
+# config.read('bot/config.ini')
+# bot_token = config['DEFAULT']['TOKEN']
 
-config = ConfigParser()
-config.read('config.py')
-bot_token = config['DEFAULT']['TOKEN']
-
-bot = telebot.TeleBot(bot_token)
+bot = telebot.TeleBot(token)
 bot.set_webhook()
 webAppLink = types.WebAppInfo("https://frontend--singular-melba-c0caef.netlify.app/") #ссылка на наше веб-приложение
 

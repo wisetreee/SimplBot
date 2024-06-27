@@ -3,9 +3,13 @@ from sqlalchemy import create_engine, MetaData, Table, Integer, Column, ForeignK
 # from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Session
+import json
 
-#строка подключения
-post_db = "postgresql://simplbotdatabase_user:SgnGeuH6yXkyu9RUAtNJfm9eY2xS7aq2@dpg-cpukphij1k6c738c8ko0-a.frankfurt-postgres.render.com/simplbotdatabase"
+#строка подключения 
+with open('bot/config.json') as file:
+    data = json.load(file) 
+    post_db = data['post_db']
+
 
 #какой-то движок алхеми
 engine = create_engine(post_db, echo  =True)
