@@ -41,6 +41,9 @@ class Achievements(Base):
     description = Column(String(100), nullable = False)
     prize = Column(Integer, nullable = False)
 
+    def Get_dictionary(this):
+        return {"id_achievement": this.id_achievement, "name": this.name, "description": this.description, "prize": this.prize}
+
     def Get_description(this):
         return f"{this.id_achievement} {this.name} {this.description} {this.prize}"
 
@@ -52,6 +55,9 @@ class Request_for_merch(Base):
     comment_hr = Column(String, nullable = False)
     comment_s = Column(String, nullable = False)
     id_status = Column(Integer, ForeignKey('status.id_status'))
+
+    def Get_dictionary(this):
+        return {"id_request_for_merch": this.id_request_for_merch, "id_user": this.id_user, "id_product": this.id_product, "comment_hr": this.comment_hr, "comment_s": this.comment_s, "id_status": this.id_status}
 
     def Get_description(this):
         return f"{this.id_request_for_merch} {this.id_user} {this.id_product} {this.comment_hr} {this.comment_s} {this.id_status}"
@@ -65,6 +71,9 @@ class Request_for_coin(Base):
     comment_s = Column(String, nullable = False)
     id_status = Column(Integer, ForeignKey('status.id_status'))
 
+    def Get_dictionary(this):
+        return {"id_request_for_coin": this.id_request_for_coin, "id_user": this.id_user, "id_achievement": this.id_achievement, "comment_hr": this.comment_hr, "comment_s": this.comment_s, "id_status": this.id_status}
+
     def Get_description(this):
         return f"{this.id_request_for_coin} {this.id_user} {this.id_achievement} {this.comment_hr} {this.comment_s} {this.id_status}"
 
@@ -73,6 +82,9 @@ class Status(Base):
     id_status = Column(Integer, primary_key =True)
     status_name = Column(String, nullable = False)
 
+    def Get_dictionary(this):
+        return {"id_status": this.id_status, "status_name": this.status_name}
+
     def Get_description(this):
         return f"{this.id_status} {this.status_name}"
 
@@ -80,6 +92,9 @@ class Role(Base):
     __tablename__ = 'role'
     id_role = Column(Integer, primary_key =True)
     pole_name = Column(String, nullable = False)
+
+    def Get_dictionary(this):
+        return {"id_role": this.id_role, "pole_name": this.pole_name}
 
     def Get_description(this):
         return f"{this.id_role} {this.pole_name}"
@@ -92,7 +107,7 @@ class Role(Base):
 
 def get_balance(user_id):
     with Session(autoflush=False, bind=engine) as db:
-        users = db.query(Users).filter_by(id_user = user_id)
+        users = list(db.query(Users).filter_by(id_user = user_id))
         users = [user.Get_dictionary() for user in users]
         return users
 
@@ -114,5 +129,5 @@ def get_request_for_merch(user_id):
         merch = [m.Get_dictionary() for m in merch]
         return merch
 
-print(get_request_for_coins(2)[1].Get_description())
+print(get_balance(2)[0])
 
