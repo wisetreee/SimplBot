@@ -3,7 +3,6 @@ import DBService
 from telebot import types
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from DBService import p
 from configparser import ConfigParser
 import json
 app = Flask(__name__, static_folder="react_app") # инициализация Flask-приложения
@@ -17,14 +16,14 @@ def get_balance():
 
 with open('bot/config.json') as file:
     token = json.load(file) 
-    post_db = token['TOKEN']
+    bot_token = token['TOKEN']
     
 # парсер не может строку распарсить с URL БД    
 # config = ConfigParser()
 # config.read('bot/config.ini')
 # bot_token = config['DEFAULT']['TOKEN']
 
-bot = telebot.TeleBot(token)
+bot = telebot.TeleBot(bot_token)
 bot.set_webhook()
 webAppLink = types.WebAppInfo("https://frontend--singular-melba-c0caef.netlify.app/") #ссылка на наше веб-приложение
 
