@@ -5,7 +5,7 @@ from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Session
 
 #строка подключения
-post_db = "postgresql://postgres:masterkey@localhost/SIMPLdb"
+post_db = "postgresql://simplbotdatabase_user:SgnGeuH6yXkyu9RUAtNJfm9eY2xS7aq2@dpg-cpukphij1k6c738c8ko0-a.frankfurt-postgres.render.com/simplbotdatabase"
 
 #какой-то движок алхеми
 engine = create_engine(post_db, echo  =True)
