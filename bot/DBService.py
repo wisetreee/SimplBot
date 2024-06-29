@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 import json
 
 #строка подключения 
-with open('bot/config.json') as file:
+with open('config.json') as file:
     data = json.load(file) 
     post_db = data['post_db']
 
