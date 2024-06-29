@@ -133,5 +133,5 @@ def get_request_for_merch(user_id):
         merch = [m.Get_dictionary() for m in merch]
         return merch
 
-print(get_balance(2)[0])
+# print(get_balance(2)[0])
 

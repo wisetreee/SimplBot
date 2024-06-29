@@ -9,6 +9,13 @@ import json
 app = Flask(__name__, static_folder="react_app") # инициализация Flask-приложения
 CORS(app) 
 
+
+@app.route('/')
+def hello():
+   return 'hello world'
+
+
+
 @app.route('/api/getBalance', methods=['GET']) # При запросе на https://simplbot.loca.lt/api/getBalance возвращается JSON-файл со значением 40
 def get_balance():
    id = int(request.args.get('user_id'))
