@@ -14,7 +14,7 @@ def get_balance():
    balance = DBService.get_balance(id)[0] # Метод возвращает список словарей. Что делать, если строк в таблице несколько для одного айдишника?
    return jsonify(balance)
 
-with open('bot/config.json') as file:
+with open('config.json') as file:
     token = json.load(file) 
     bot_token = token['TOKEN']
     
@@ -46,12 +46,12 @@ def webAppKeyboard():
 @bot.message_handler(commands=['start'])
 def start(message):
    bot.send_message( message.chat.id, 'Привет, я SimplBot, твой помощник для работы c валютой SimplCoin!\nЗапустить приложение можно по кнопке ниже или с помощью команды /app.',parse_mode="Markdown", reply_markup=webAppKeyboard())
-   bot.delete_message(message.chat.id, message.message_id)
+   # bot.delete_message(message.chat.id, message.message_id)
 
 @bot.message_handler(commands=['app'])
 def app(message):
    bot.send_message(message.chat.id, 'Ссылка на магазин ', reply_markup=webAppMessageButton())
-   bot.delete_message(message.chat.id, message.message_id)
+ #  bot.delete_message(message.chat.id, message.message_id)
 
 # @bot.message_handler(commands=['sql'])
 # def sql(message):
