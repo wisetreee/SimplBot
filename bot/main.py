@@ -5,6 +5,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from configparser import ConfigParser
 import json
+
 app = Flask(__name__, static_folder="react_app") # инициализация Flask-приложения
 CORS(app) 
 
