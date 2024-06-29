@@ -10,7 +10,6 @@ with open('config.json') as file:
     data = json.load(file) 
     post_db = data['post_db']
 
-
 #какой-то движок алхеми
 engine = create_engine(post_db, echo  =True)
 
@@ -31,12 +30,13 @@ class Users(Base):
     telephone = Column(String(100), nullable = False) # проверить тип атрибута и нужно ли номер вообще использовать
     balance = Column(Integer, nullable = False)
     id_role = Column(Integer, ForeignKey('role.id_role')) # нужно название таблицы на которую ссылается внешний ключ
+    id_telegram = Column(Integer, nullable = False)
 
     def Get_dictionary(this):
-        return {"id_user": this.id_user, "name": this.name, "lastname": this.lastname, "telephone": this.telephone, "balance": this.balance, "id_role": this.id_role}
+        return {"id_user": this.id_user, "name": this.name, "lastname": this.lastname, "telephone": this.telephone, "balance": this.balance, "id_role": this.id_role, "id_telegram": this.id_telegram}
 
     def Get_description(this):
-        return f"{this.id_user} {this.name} {this.lastname} {this.telephone} {this.balance} {this.id_role}"
+        return f"{this.id_user} {this.name} {this.lastname} {this.telephone} {this.balance} {this.id_role} {this.id_telegram}"
 
 class Achievements(Base):
     __tablename__ = 'achievements'
@@ -132,6 +132,16 @@ def get_request_for_merch(user_id):
         merch = list(db.query(Request_for_merch).filter_by(id_user = user_id))
         merch = [m.Get_dictionary() for m in merch]
         return merch
+
+def login(telegram_id):
+    with Session(autoflush=False, bind=engine) as db:
+        telegram = list(db.query(Users.id_telegram))
+        for t in telegram:
+            if telegram_id == t:
+                return True
+            else:
+                return False
+                
 
 # print(get_balance(2)[0])
 
