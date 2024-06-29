@@ -9,7 +9,8 @@ import json
 
 app = Flask(__name__, static_folder="react_app") # инициализация Flask-приложения
 CORS(app) 
-
+host = os.getenv('FLASK_HOST', '127.0.0.1')
+port = os.getenv('FLASK_PORT', '5000')
 
 @app.route('/')
 def hello():
@@ -77,7 +78,6 @@ def deny(message):
 bot.polling(non_stop=True)
 
 if __name__ == '__main__':
-   host = os.getenv('FLASK_HOST', '127.0.0.1')
-   port = os.getenv('FLASK_PORT', '5000')
+
    app.run(host=host, port=int(port))
    #  app.run(debug=True, port=5000)
