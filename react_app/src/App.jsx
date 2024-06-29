@@ -22,8 +22,8 @@ return (
 
     <Routes>
       <Route index element={<MainPage />} />
-      {/* <Route index element={<div>No page is selected.</div> } /> */}
       {/* <Route path="/create" element={<CreateRequestPage />} /> */}
+       {/* <Route index element={<div>No page is selected.</div> } /> */}
      </Routes>
 
 </div>

@@ -62,4 +62,4 @@ def deny(message):
 bot.polling(non_stop=True)
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+     app.run(ssl_context=('simplbot.pem', 'simplbot-key.pem'), debug=True, port=5000)

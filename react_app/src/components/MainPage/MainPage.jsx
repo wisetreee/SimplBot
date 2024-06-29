@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../Header/Header';
 import Button from '../Button/Button';
+import '../MainPage/MainPage.css'
 // import  './MainPage.css';
 
 const MainPage = () => {
@@ -15,7 +16,9 @@ const MainPage = () => {
       
       <Header title="Мои заявки" />
       <Button text="Создать заявку" onClick={() => navigate('/create')}/>
-      <p>Тут пусто...пока</p>
+      
+      <p className='empty'>Тут пусто...пока</p>
+      
     </div>
   );
 };

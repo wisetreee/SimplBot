@@ -21,7 +21,7 @@ const Header = ({ title }) => {
     //   }
     // };
 
-      fetch('https://simplbot.loca.lt/api/getBalance')
+      fetch('https://localhost:5000/api/getBalance')
         .then((res) => res.json())
         .then((data) => {
           setBalance(data.balance);
@@ -37,8 +37,9 @@ const Header = ({ title }) => {
 
     return (
       <header className="Header">
-        <h1>{title}</h1>
         {balance !== null ? <span>{balance}</span> : <span>Загрузка...</span>}
+        <h1>{title}</h1>
+        
       </header>
     );
   };

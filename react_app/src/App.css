@@ -6,21 +6,37 @@
 }
 
 @font-face {
-  font-family: "Inter";
+  font-family: 'Inter';
+  src: url('Inter-Medium.eot');
+  src: local('Inter Medium'), local('Inter-Medium'),
+      url('./fonts/Inter/Inter-Medium.eot') format('embedded-opentype'),
+      url('./fonts/Inter/Inter-Medium.woff2') format('woff2'),
+      url('./fonts/Inter/Inter-Medium.woff') format('woff'),
+      url('./fonts/Inter/Inter-Medium.ttf') format('truetype');
+  font-weight: 500;
   font-style: normal;
-  font-weight: 400;
-  /* Браузер сначала попробует найти шрифт локально */
-  src: local("Inter"),
-       /* Если не получилось, загрузит woff2 */
-       url("/fonts/roboto.woff2") format("truetype"),
-
 }
+
+@font-face {
+  font-family: 'Inter-SemiBold';
+  src: url('Inter-SemiBold.eot');
+  src: local('Inter Semi Bold'), local('Inter-SemiBold'),
+      url('./fonts/Inter/Inter-SemiBold.eot?#iefix') format('embedded-opentype'),
+      url('./fonts/Inter/Inter-SemiBold.woff2') format('woff2'),
+      url('./fonts/Inter/Inter-SemiBold.woff') format('woff'),
+      url('./fonts/Inter/Inter-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+
+
 .App {
-  font-family: Inter;
+  font-family: 'Inter';
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background-color: #f9f9f9;
+  background-color: #f8f8f8;
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
