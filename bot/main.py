@@ -6,10 +6,12 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from configparser import ConfigParser
 import json
+from waitress import serve
+from threading import Thread
 
 app = Flask(__name__, static_folder="react_app") # инициализация Flask-приложения
 CORS(app) 
-host = os.getenv('FLASK_HOST', '127.0.0.1')
+# host = os.getenv('FLASK_HOST', '127.0.0.1')
 port = os.getenv('FLASK_PORT', '5000')
 
 @app.route('/')
@@ -63,10 +65,6 @@ def app(message):
    bot.send_message(message.chat.id, 'Ссылка на магазин ', reply_markup=webAppMessageButton())
  #  bot.delete_message(message.chat.id, message.message_id)
 
-# @bot.message_handler(commands=['sql'])
-# def sql(message):
-#    bot.send_message(message.chat.id, data)
-#    bot.delete_message(message.chat.id, message.message_id)
 
 @bot.message_handler(content_types='text')
 def deny(message):
@@ -74,10 +72,22 @@ def deny(message):
     bot.send_message(message.chat.id, "Такой команды не существует.")
 
 
+def run_flask():
+    port = int(os.getenv('PORT', 5000))
+    serve(app, host='0.0.0.0', port=port)
 
-bot.polling(non_stop=True)
+def run_bot():
+    bot.polling(non_stop=True)
+
 
 if __name__ == '__main__':
+    # Запуск Flask и бота параллельно
+    flask_thread = Thread(target=run_flask)
+    flask_thread.start()
 
-   app.run(host=host, port=int(port))
-   #  app.run(debug=True, port=5000)
+    bot_thread = Thread(target=run_bot)
+    bot_thread.start()
+
+    # Ожидание завершения потоков
+    flask_thread.join()
+    bot_thread.join()
