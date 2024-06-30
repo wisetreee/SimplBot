@@ -26,16 +26,16 @@ def get_balance():
    balance = DBService.get_balance(id)[0] # Метод возвращает список словарей. Что делать, если строк в таблице несколько для одного айдишника?
    return jsonify(balance)
 
-with open('config.json') as file:
-    token = json.load(file) 
-    bot_token = token['TOKEN']
+# with open('config.json') as file:
+#     token = json.load(file) 
+#     bot_token = token['TOKEN']
     
 # парсер не может строку распарсить с URL БД    
 # config = ConfigParser()
 # config.read('bot/config.ini')
 # bot_token = config['DEFAULT']['TOKEN']
 
-bot = telebot.TeleBot(bot_token)
+bot = telebot.TeleBot("7409866729:AAFOHZ51bByoojzbKA_5IDGT8MFb9oO3BYE")
 bot.set_webhook()
 webAppLink = types.WebAppInfo("https://frontend--singular-melba-c0caef.netlify.app/") #ссылка на наше веб-приложение
 

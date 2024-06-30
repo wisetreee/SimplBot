@@ -6,9 +6,11 @@ from sqlalchemy.orm import Session
 import json
 
 #строка подключения 
-with open('config.json') as file:
-    data = json.load(file) 
-    post_db = data['post_db']
+# with open('config.json') as file:
+#     data = json.load(file) 
+#     post_db = data['post_db']
+
+post_db = "postgresql://simplbotdatabase_user:SgnGeuH6yXkyu9RUAtNJfm9eY2xS7aq2@dpg-cpukphij1k6c738c8ko0-a.frankfurt-postgres.render.com/simplbotdatabase"
 
 #какой-то движок алхеми
 engine = create_engine(post_db, echo  =True)
@@ -135,13 +137,13 @@ def get_request_for_merch(user_id):
 
 def login(telegram_id):
     with Session(autoflush=False, bind=engine) as db:
-        telegram = list(db.query(Users.id_telegram))
+        telegram = list(db.query(Users))
+        telegram = [t.Get_dictionary() for t in telegram]
         for t in telegram:
-            if telegram_id == t:
+            if telegram_id == t['id_telegram']:
                 return True
             else:
                 return False
-                
 
 # print(get_balance(2)[0])
 
