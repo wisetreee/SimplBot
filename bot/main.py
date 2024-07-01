@@ -107,7 +107,7 @@ from threading import Thread
 
 # Конфигурация
 TOKEN = "7409866729:AAFOHZ51bByoojzbKA_5IDGT8MFb9oO3BYE"
-URL = "https://simplbot.onrender.com"
+URL = "https://simplbot.onrender.com/"
 
 
 bot = telebot.TeleBot(TOKEN)
