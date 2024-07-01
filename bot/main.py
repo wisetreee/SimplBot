@@ -106,7 +106,7 @@ from waitress import serve
 from threading import Thread
 
 # Конфигурация
-TOKEN = os.getenv("TELEGRAM_TOKEN")
+TOKEN = "7409866729:AAFOHZ51bByoojzbKA_5IDGT8MFb9oO3BYE"
 URL = os.getenv("WEBHOOK_URL")
 bot = telebot.TeleBot(TOKEN)
 
