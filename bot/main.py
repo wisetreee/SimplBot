@@ -149,4 +149,4 @@ if __name__ == '__main__':
     bot.set_webhook(url=URL + TOKEN)
 
     # Запуск бота в режиме polling для обработки сообщений
-    bot.polling(none_stop=True)
+   #  bot.polling(none_stop=True)
