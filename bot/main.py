@@ -13,6 +13,13 @@ app = Flask(__name__, static_folder="react_app") # инициализация Fl
 CORS(app) 
 # host = os.getenv('FLASK_HOST', '127.0.0.1')
 port = os.getenv('FLASK_PORT', '5000')
+TOKEN="7409866729:AAFOHZ51bByoojzbKA_5IDGT8MFb9oO3BYE"
+URL="https://simplbot.onrender.com"
+
+
+bot = telebot.TeleBot(TOKEN)
+webAppLink = types.WebAppInfo("https://frontend--singular-melba-c0caef.netlify.app/") #ссылка на наше веб-приложение
+
 
 @app.route('/')
 def hello():
@@ -35,9 +42,7 @@ def get_balance():
 # config.read('bot/config.ini')
 # bot_token = config['DEFAULT']['TOKEN']
 
-bot = telebot.TeleBot("7409866729:AAFOHZ51bByoojzbKA_5IDGT8MFb9oO3BYE")
-bot.set_webhook()
-webAppLink = types.WebAppInfo("https://frontend--singular-melba-c0caef.netlify.app/") #ссылка на наше веб-приложение
+
 
 # ----------------------
 
@@ -76,18 +81,19 @@ def run_flask():
     port = int(os.getenv('PORT', 5000))
     serve(app, host='0.0.0.0', port=port)
 
-def run_bot():
-    bot.polling(non_stop=True)
 
 
 if __name__ == '__main__':
     # Запуск Flask и бота параллельно
-    flask_thread = Thread(target=run_flask)
-    flask_thread.start()
-
-    bot_thread = Thread(target=run_bot)
-    bot_thread.start()
+   #  flask_thread = Thread(target=run_flask)
+   #  flask_thread.start()
+   run_flask()
+   bot.remove_webhook()
+   
+   bot.setWebhook('{URL}{HOOK}'.format(URL=URL, HOOK=TOKEN))
+   #  bot_thread = Thread(target=run_bot)
+   #  bot_thread.start()
 
     # Ожидание завершения потоков
-    flask_thread.join()
-    bot_thread.join()
+   #  flask_thread.join()
+   #  bot_thread.join()
