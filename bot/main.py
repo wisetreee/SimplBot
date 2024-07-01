@@ -17,7 +17,7 @@ CORS(app)
 # # host = os.getenv('FLASK_HOST', '127.0.0.1')
 # port = os.getenv('FLASK_PORT', '5000')
 TOKEN="7409866729:AAFOHZ51bByoojzbKA_5IDGT8MFb9oO3BYE"
-URL="https://simplbot.onrender.com/"
+URL="https://simplbot.onrender.com"
 
 
 bot = telebot.TeleBot(TOKEN)
@@ -30,7 +30,7 @@ def hello():
 
 
 
-@app.route('/api/getBalance', methods=['GET']) # При запросе на https://simplbot.loca.lt/api/getBalance возвращается JSON-файл со значением 40
+@app.route('/api/getBalance', methods=['GET']) # При запросе на "https://simplbot.onrender.com/" возвращается JSON-файл
 def get_balance():
    id = int(request.args.get('user_id'))
    balance = DBService.get_balance(id)[0] # Метод возвращает список словарей. Что делать, если строк в таблице несколько для одного айдишника?
