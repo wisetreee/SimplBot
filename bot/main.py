@@ -24,10 +24,21 @@ bot = telebot.TeleBot(TOKEN)
 webAppLink = types.WebAppInfo("https://frontend--singular-melba-c0caef.netlify.app/") #ссылка на наше веб-приложение
 
 
-@app.route('/')
-def hello():
-   return 'hello world'
 
+# Маршрут для обработки вебхуков
+@app.route('/' + TOKEN, methods=['POST'])
+def getMessage():
+    json_string = request.get_data().decode('utf-8')
+    update = telebot.types.Update.de_json(json_string)
+    bot.process_new_updates([update])
+    return "!", 200
+
+# Маршрут для установки вебхука
+@app.route('/')
+def webhook():
+    bot.remove_webhook()
+    bot.set_webhook(url=URL + TOKEN)
+    return "Webhook set!", 200
 
 
 @app.route('/api/getBalance', methods=['GET']) # При запросе на "https://simplbot.onrender.com/" возвращается JSON-файл
@@ -79,20 +90,7 @@ def app(message):
 
 
 
-# Маршрут для обработки вебхуков
-@app.route('/' + TOKEN, methods=['POST'])
-def getMessage():
-    json_string = request.get_data().decode('utf-8')
-    update = telebot.types.Update.de_json(json_string)
-    bot.process_new_updates([update])
-    return "!", 200
 
-# Маршрут для установки вебхука
-@app.route('/')
-def webhook():
-    bot.remove_webhook()
-    bot.set_webhook(url=URL + TOKEN)
-    return "Webhook set!", 200
 
 def run_flask():
     port = int(os.getenv('PORT', 5000))
