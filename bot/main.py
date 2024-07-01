@@ -23,7 +23,12 @@ URL="https://simplbot.onrender.com/"
 bot = telebot.TeleBot(TOKEN)
 webAppLink = types.WebAppInfo("https://frontend--singular-melba-c0caef.netlify.app/") #ссылка на наше веб-приложение
 
-
+# Маршрут для установки вебхука
+@app.route('/')
+def webhook():
+    bot.remove_webhook()
+    bot.set_webhook(url=URL + TOKEN)
+    return "Webhook set!", 200
 
 # Маршрут для обработки вебхуков
 @app.route('/' + TOKEN, methods=['POST'])
@@ -33,12 +38,7 @@ def getMessage():
     bot.process_new_updates([update])
     return "!", 200
 
-# Маршрут для установки вебхука
-@app.route('/')
-def webhook():
-    bot.remove_webhook()
-    bot.set_webhook(url=URL + TOKEN)
-    return "Webhook set!", 200
+
 
 
 @app.route('/api/getBalance', methods=['GET']) # При запросе на "https://simplbot.onrender.com/" возвращается JSON-файл
