@@ -22,7 +22,7 @@ URL="https://simplbot.onrender.com/"
 bot = telebot.TeleBot(TOKEN)
 webAppLink = types.WebAppInfo("https://frontend--singular-melba-c0caef.netlify.app/") #ссылка на наше веб-приложение
 
-
+URLAchiv='https://simplbot.onrender.com/api/achievements'
 
 # # with open('config.json') as file:
 # #     token = json.load(file) 
@@ -85,8 +85,14 @@ def get_balance():
    balance = DBService.get_balance(id)[0] # Метод возвращает список словарей. Что делать, если строк в таблице несколько для одного айдишника?
    return jsonify(balance)
 
+def load_achievements():
+    with open('achievements.json', 'r', encoding='utf-8') as f:
+        return json.load(f)
 
-
+@app.route('/api/getAchievements', methods=['GET'])
+def get_achievements():
+    achievements = load_achievements()
+    return jsonify(achievements)
 
 def run_flask():
     port = int(os.getenv('PORT', 5000))
