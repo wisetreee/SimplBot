@@ -38,14 +38,11 @@ def getMessage():
     bot.process_new_updates([update])
     return "!", 200
 
-
-
-
-@app.route('/api/getBalance', methods=['GET']) # При запросе на "https://simplbot.onrender.com/" возвращается JSON-файл
-def get_balance():
-   id = int(request.args.get('user_id'))
-   balance = DBService.get_balance(id)[0] # Метод возвращает список словарей. Что делать, если строк в таблице несколько для одного айдишника?
-   return jsonify(balance)
+# @app.route('/api/getBalance', methods=['GET']) # При запросе на "https://simplbot.onrender.com/" возвращается JSON-файл
+# def get_balance():
+#    id = int(request.args.get('user_id'))
+#    balance = DBService.get_balance(id)[0] # Метод возвращает список словарей. Что делать, если строк в таблице несколько для одного айдишника?
+#    return jsonify(balance)
 
 # # with open('config.json') as file:
 # #     token = json.load(file) 
