@@ -1,10 +1,10 @@
 
 import './App.css';
 import { useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import {UseTelegram} from "./hooks/UseTelegram";
 import MainPage from './components/MainPage/MainPage.jsx';
-
+import CreateRequestPage from './components/CreateRequestPage/CreateRequestPage.jsx';
 function App() {
   const {tg} = UseTelegram();
 
@@ -21,8 +21,8 @@ return (
 <div className="App">
 
     <Routes>
-      <Route index element={<MainPage />} />
-      {/* <Route path="/create" element={<CreateRequestPage />} /> */}
+      <Route path='/' element={<MainPage />} />
+      <Route path="/create" element={<CreateRequestPage />} />
        {/* <Route index element={<div>No page is selected.</div> } /> */}
      </Routes>
 
