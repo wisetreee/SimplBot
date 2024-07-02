@@ -1,0 +1,52 @@
+.achievements-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 10px;
+ 
+    border-radius: 5px;
+    background-color: #ffffff;
+    margin:15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+
+  
+  .achievement-option {
+    text-align: left;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .achievement-option input[type="radio"] {
+    margin-right: 10px;
+  }
+  
+  .achievement-option.selected {
+    background-color: #ff07ff; /* цвет фона для выбранной опции */
+    border-color: #ff0000; /* цвет границы для выбранной опции */
+  }
+
+  textarea {
+    margin:15px;
+    height: 100px;
+    padding: 10px;
+    border-radius: 5px;
+    resize: none;
+    width:100%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+   
+  }
+  
+  .submit-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #ff5722;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  

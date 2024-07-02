@@ -42,7 +42,7 @@ const {tg} = UseTelegram();
 
     return (
       <header className="Header">
-        <span>{tg.initDataUnsafe?.user?.username}</span>
+        <span className='Username'>{tg.initDataUnsafe?.user?.username}</span>
         {balance !== null ? <span>{balance}</span> : <span>Загрузка...</span>}
         <h1>{title}</h1>
         
