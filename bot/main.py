@@ -19,30 +19,10 @@ CORS(app)
 TOKEN="7409866729:AAFOHZ51bByoojzbKA_5IDGT8MFb9oO3BYE"
 URL="https://simplbot.onrender.com/"
 
-
 bot = telebot.TeleBot(TOKEN)
 webAppLink = types.WebAppInfo("https://frontend--singular-melba-c0caef.netlify.app/") #ссылка на наше веб-приложение
 
-# Маршрут для установки вебхука
-@app.route('/')
-def webhook():
-    bot.remove_webhook()
-    bot.set_webhook(url=URL + TOKEN)
-    return "Webhook set!", 200
 
-# Маршрут для обработки вебхуков
-@app.route('/' + TOKEN, methods=['POST'])
-def getMessage():
-    json_string = request.get_data().decode('utf-8')
-    update = telebot.types.Update.de_json(json_string)
-    bot.process_new_updates([update])
-    return "!", 200
-
-@app.route('/api/getBalance', methods=['GET']) # При запросе на "https://simplbot.onrender.com/" возвращается JSON-файл
-def get_balance():
-   id = int(request.args.get('user_id'))
-   balance = DBService.get_balance(id)[0] # Метод возвращает список словарей. Что делать, если строк в таблице несколько для одного айдишника?
-   return jsonify(balance)
 
 # # with open('config.json') as file:
 # #     token = json.load(file) 
@@ -84,7 +64,26 @@ def app(message):
  #  bot.delete_message(message.chat.id, message.message_id)
 
 
+# Маршрут для установки вебхука
+@app.route('/')
+def webhook():
+    bot.remove_webhook()
+    bot.set_webhook(url=URL + TOKEN)
+    return "Webhook set!", 200
 
+# Маршрут для обработки вебхуков
+@app.route('/' + TOKEN, methods=['POST'])
+def getMessage():
+    json_string = request.get_data().decode('utf-8')
+    update = telebot.types.Update.de_json(json_string)
+    bot.process_new_updates([update])
+    return "!", 200
+
+@app.route('/api/getBalance', methods=['GET']) # При запросе на "https://simplbot.onrender.com/" возвращается JSON-файл
+def get_balance():
+   id = int(request.args.get('user_id'))
+   balance = DBService.get_balance(id)[0] # Метод возвращает список словарей. Что делать, если строк в таблице несколько для одного айдишника?
+   return jsonify(balance)
 
 
 
@@ -98,8 +97,8 @@ if __name__ == '__main__':
     flask_thread = Thread(target=run_flask)
     flask_thread.start()
 
-    # bot.remove_webhook()
-    # bot.set_webhook(url=URL + TOKEN)
+    bot.remove_webhook()
+    bot.set_webhook(url=URL + TOKEN)
 
     # Запуск бота в режиме polling для обработки сообщений
    #  bot.polling(none_stop=True)
