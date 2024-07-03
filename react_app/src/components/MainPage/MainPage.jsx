@@ -8,7 +8,7 @@ import '../MainPage/MainPage.css'
 const MainPage = () => {
 
   const navigate = useNavigate();
-  tg.MainButton.hide();
+  
 
   
   return (

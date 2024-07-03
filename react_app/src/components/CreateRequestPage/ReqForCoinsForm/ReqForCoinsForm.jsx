@@ -84,8 +84,8 @@ const ReqForCoinsForm = () => {
       console.error('Error submitting application:', error);
     }
 
-    navigate('/')
-
+    navigate('/');
+    tg.MainButton.hide();
 
   };
 
