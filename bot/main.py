@@ -1,7 +1,7 @@
 import os
 import telebot
 import DBService
-from DBService import get_achievements
+from DBService import get_achievements, insert_request_for_coins
 from telebot import types
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -22,7 +22,6 @@ URL="https://simplbot.onrender.com/"
 bot = telebot.TeleBot(TOKEN)
 webAppLink = types.WebAppInfo("https://frontend--singular-melba-c0caef.netlify.app/") #ссылка на наше веб-приложение
 
-URLAchiv='https://simplbot.onrender.com/api/achievements'
 
 # # with open('config.json') as file:
 # #     token = json.load(file) 
@@ -95,19 +94,11 @@ def get_achievement():
     achievements = get_achievements()
     return jsonify(achievements)
 
-# @app.route('/api/getAchievements', methods=['POST'])
-# def puch_Request_for_coin():
-#         if 'file' not in request.files:
-#             return jsonify({"error": "No file part"}), 400
-#         file = request.files['file']
-
-#         # Проверяем, выбран ли файл
-#         if file:
-#                 # Сохраняем файл в указанную директорию
-#             filename = file.filename
-#             filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-#             file.save(filepath)
-
+@app.route('/api/submitCoinRequest', methods=['POST'])
+def puch_Request_for_coin():
+        data = request.get_json()
+        insert_request_for_coins(data)
+        
 def run_flask():
     port = int(os.getenv('PORT', 5000))
     serve(app, host='0.0.0.0', port=port)
