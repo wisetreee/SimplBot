@@ -58,7 +58,7 @@ const ReqForCoinsForm = () => {
     if (!isReadyToSubmit) return;
 
     const CoinReq = {
-      id_user: tg.initDataUnsafe?.user,
+      id_user: tg.initDataUnsafe?.user.id,
       id_achievement: selectedAchievement,
       comment_hr: '',
       comment_s: comment,
@@ -108,7 +108,8 @@ const ReqForCoinsForm = () => {
       {achievements.map((achievement) => (
         <label 
         key={achievement.id_achievement}
-        className={`achievement-option ${selectedAchievement === achievement.id_achievement ? 'selected' : ''}`}>
+        className={`achievement-option ${selectedAchievement === achievement.id_achievement ? 'selected' : ''}`} for="achievement">
+        
           <input
             type="radio"
             name="achievement"
@@ -116,6 +117,7 @@ const ReqForCoinsForm = () => {
             checked={selectedAchievement === achievement.id_achievement}
             onChange={handleAchievementChange}
           />
+         
           {achievement.name}
         </label>
       ))}
