@@ -150,7 +150,8 @@ def get_achievements():
     with Session(autoflush=False, bind=engine) as db:
         achiv = list(db.query(Achievements))
         achiv = [ac.Get_dictionary() for ac in achiv]
-        return json.dump(achiv, ensure_ascii=False, indent=4)
+        return achiv
+        # json.dump(achiv, ensure_ascii=False, indent=4)
 #         # for i in achiv:
 #         #     print(i["name"])
 
