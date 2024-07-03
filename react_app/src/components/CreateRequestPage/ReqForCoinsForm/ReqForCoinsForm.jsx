@@ -60,7 +60,7 @@ const ReqForCoinsForm = () => {
     const CoinReq = {
       id_user: tg.initDataUnsafe?.user.id,
       id_achievement: selectedAchievement,
-      comment_hr: '',
+      comment_hr: '1',
       comment_s: comment,
       id_status: 1
     };
@@ -84,7 +84,7 @@ const ReqForCoinsForm = () => {
       console.error('Error submitting application:', error);
     }
 
-    navigate('/')
+    useNavigate.navigate('/')
 
 
   };
