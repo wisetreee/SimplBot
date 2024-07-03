@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import './ReqForCoinsForm.css';
-
-
+import {UseTelegram} from "/src/hooks/UseTelegram";
+import { useNavigate } from 'react-router-dom';
 const ReqForCoinsForm = () => {
   const [achievements, setAchievements] = useState([]);
   const [selectedAchievement, setSelectedAchievement] = useState('');
   const [comment, setComment] = useState('');
+  const [isReadyToSubmit, setIsReadyToSubmit] = useState(false);
+
+  
 
   useEffect(() => {
+
     // Fetch achievements from the backend
     const fetchAchievements = async () => {
       try {
@@ -23,16 +27,21 @@ const ReqForCoinsForm = () => {
   }, []);
 
 
-  // const SendCoinRequest =() => {
-  //   coinRequest=
-  //   {
-  //     "id_user": ,
+  useEffect(() => {
+    // Update the main button state based on form completeness
+    const tg = window.Telegram.WebApp;
+    tg.MainButton.setParams({ text: "Отправить" });
+
+    if (selectedAchievement && comment) {
+      tg.MainButton.show();
+      setIsReadyToSubmit(true);
+    } else {
+      tg.MainButton.hide();
+      setIsReadyToSubmit(false);
+    }
+  }, [selectedAchievement, comment]);
 
 
-  //   }
-
-    
-  // }
 
 
   const handleAchievementChange = (event) => {
@@ -43,12 +52,52 @@ const ReqForCoinsForm = () => {
     setComment(event.target.value);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Handle form submission logic
-    console.log('Selected Achievement:', selectedAchievement);
-    console.log('Comment:', comment);
+
+  const handleSubmit = async (event) => {
+    if (!isReadyToSubmit) return;
+
+    const CoinReq = {
+      id_user: tg.initDataUnsafe?.user,
+      id_achievement: selectedAchievement,
+      comment_hr: '',
+      comment_s: comment,
+      id_status: 1
+    };
+
+    try {
+      const response = await fetch('https://simplbot.onrender.com/api/submitCoinRequest', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(CoinReq),
+      });
+
+      if (response.ok) {
+        console.log('Application submitted successfully');
+
+      } else {
+        console.error('Failed to submit application');
+      }
+    } catch (error) {
+      console.error('Error submitting application:', error);
+    }
+
+    navigate('/')
+
+
   };
+
+  useEffect(() => {
+    // Set up event listener for main button click
+    const tg = window.Telegram.WebApp;
+    tg.onEvent('mainButtonClicked', handleSubmit);
+
+    return () => {
+      tg.offEvent('mainButtonClicked', handleSubmit);
+    };
+  }, [isReadyToSubmit]);
+
 
   return (
     <div>
@@ -77,7 +126,7 @@ const ReqForCoinsForm = () => {
         value={comment}
         onChange={handleCommentChange}
       />
-    <button type="submit" className="submit-button">Отправить</button>
+    {/* <button type="submit" className="submit-button">Отправить</button> */}
     </div>
   );
 };
