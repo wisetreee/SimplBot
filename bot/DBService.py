@@ -1,79 +1,158 @@
 import psycopg2
+from sqlalchemy import create_engine, MetaData, Table, Integer, Column, ForeignKey, Numeric, String
+# from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import DeclarativeBase
+from sqlalchemy.orm import Session
+import json
 
-try:
-    connection = psycopg2.connect(
-        host='localhost',
-        user='postgres',
-        password='masterkey',
-        database='SIMPLDB'
-      )
-    with connection.cursor() as cursor:
-        cursor.execute("SELECT version();")
-        data=cursor.fetchone()
-        print(f"Server version {cursor.fetchone()}")
-except Exception as _ex:
-    print('Error with work PostgreSQL',_ex)  
+#строка подключения 
+# with open('config.json') as file:
+#     data = json.load(file) 
+#     post_db = data['post_db']
 
-class Status:
-    def __init__(self, id, name):
-        self.id = id
-        self.name = name
+post_db = "postgresql://simplbotdatabase_user:SgnGeuH6yXkyu9RUAtNJfm9eY2xS7aq2@dpg-cpukphij1k6c738c8ko0-a.frankfurt-postgres.render.com/simplbotdatabase"
 
-class Role:
-    def __init__(self, id, name):
-        self.id = id
-        self.name = name
+#какой-то движок алхеми
+engine = create_engine(post_db, echo  =True)
 
-class Product:
-    def __init__(self, id, name, description, price):
-        self.id = id 
-        self.name = name
-        self.description = description
-        self.price = price
-        #ссылка на товар
+class Base(DeclarativeBase): pass
+class Products(Base):
+    __tablename__ = 'products'
+    id_product = Column(Integer, primary_key =True)
+    name = Column(String(100), nullable = False)
+    description = Column(String(100), nullable = False)
+    price = Column(Integer, nullable = False)
+    linktofile = Column(String, nullable = False)
 
-class User:
-    def __init__(self, id, fist_name, last_name, phone_number, balance):
-        self.id = id
-        self.fist_name = fist_name
-        self.fist_name = last_name
-        self.phone_number = phone_number
-        self.balance = balance
-    role_id = Role.id
+class Users(Base):
+    __tablename__ = 'users'
+    id_user = Column(Integer, primary_key =True)
+    name = Column(String(100), nullable = False)
+    lastname = Column(String(100), nullable = False)
+    balance = Column(Integer, nullable = False)
+    id_role = Column(Integer, ForeignKey('role.id_role')) # нужно название таблицы на которую ссылается внешний ключ
 
-#TODO переписать метод
+    def Get_dictionary(this):
+        return {"id_user": this.id_user, "name": this.name, "lastname": this.lastname, "balance": this.balance, "id_role": this.id_role}
 
-    def deposit_balance(self, amount):
-        self.balance += amount
+    def Get_description(this):
+        return f"{this.id_user} {this.name} {this.lastname} {this.balance} {this.id_role}"
 
-    def withdraw_balance(self, amount):
-        if amount <= self.balance:
-            self.balance -= amount
-            return True
-        else:
-            return False
+class Achievements(Base):
+    __tablename__ = 'achievements'
+    id_achievement = Column(Integer, primary_key =True)
+    name = Column(String(100), nullable = False)
+    description = Column(String(100), nullable = False)
+    prize = Column(Integer, nullable = False)
 
-class Achievement:
-    def __init__(self, id, name, description, reward):
-        self.id = id
-        self.name = name
-        self.description = description
-        self.reward = reward
+    def Get_dictionary(this):
+        return {"id_achievement": this.id_achievement, "name": this.name, "description": this.description, "prize": this.prize}
 
-class Reques_for_coins:
-    def __init__(self, id, employee_comment, hr_comment):
-        self.id = id
-        self.employee_comment = employee_comment
-        self.hr_comment = hr_comment
-    id_user = User.id
-    id_product = Product.id
-    id_status = Status.id
+    def Get_description(this):
+        return f"{this.id_achievement} {this.name} {this.description} {this.prize}"
 
-class Request_for_merch:
-    def __init__(self, id, employee_comment, hr_comment):
-        self.id = id
-        self.employee_comment = employee_comment
-        self.hr_comment = hr_comment
-    id_user = User.id
-    id_achievement = Achievement.id
-    id_status = Status.id
+class Request_for_merch(Base):
+    __tablename__ = 'request_for_merch'
+    id_request_for_merch = Column(Integer, primary_key =True)
+    id_user = Column(Integer, ForeignKey('users.id_user'))
+    id_product = Column(Integer, ForeignKey('products.id_product'))
+    comment_hr = Column(String(150), nullable = True)
+    comment_s = Column(String(150), nullable = False)
+    id_status = Column(Integer, ForeignKey('status.id_status'))
+
+    def Get_dictionary(this):
+        return {"id_request_for_merch": this.id_request_for_merch, "id_user": this.id_user, "id_product": this.id_product, "comment_hr": this.comment_hr, "comment_s": this.comment_s, "id_status": this.id_status}
+
+    def Get_description(this):
+        return f"{this.id_request_for_merch} {this.id_user} {this.id_product} {this.comment_hr} {this.comment_s} {this.id_status}"
+
+class Request_for_coin(Base):
+    __tablename__ = 'request_for_coin'
+    id_request_for_coin = Column(Integer, primary_key =True)
+    id_user = Column(Integer, ForeignKey('users.id_user')) 
+    id_achievement = Column(Integer, ForeignKey('achievements.id_achievement'))
+    comment_hr = Column(String(150), nullable = True)
+    comment_s = Column(String(150), nullable = False)
+    id_status = Column(Integer, ForeignKey('status.id_status'))
+
+    def Get_dictionary(this):
+        return {"id_request_for_coin": this.id_request_for_coin, "id_user": this.id_user, "id_achievement": this.id_achievement, "comment_hr": this.comment_hr, "comment_s": this.comment_s, "id_status": this.id_status}
+
+    def Get_description(this):
+        return f"{this.id_request_for_coin} {this.id_user} {this.id_achievement} {this.comment_hr} {this.comment_s} {this.id_status}"
+
+class Status(Base):
+    __tablename__ = 'status'
+    id_status = Column(Integer, primary_key =True)
+    status_name = Column(String, nullable = False)
+
+    def Get_dictionary(this):
+        return {"id_status": this.id_status, "status_name": this.status_name}
+
+    def Get_description(this):
+        return f"{this.id_status} {this.status_name}"
+
+class Role(Base):
+    __tablename__ = 'role'
+    id_role = Column(Integer, primary_key =True)
+    pole_name = Column(String, nullable = False)
+
+    def Get_dictionary(this):
+        return {"id_role": this.id_role, "pole_name": this.pole_name}
+
+    def Get_description(this):
+        return f"{this.id_role} {this.pole_name}"
+
+
+# Base.metadata.create_all(bind=engine)
+#класс сессии
+# Session = sessionmaker(autoflush=False, bind = engine)
+# user = Session.query(Users).get(1)
+
+def get_balance(user_id):
+    with Session(autoflush=False, bind=engine) as db:
+        users = list(db.query(Users).filter_by(id_user = user_id))
+        users = [user.Get_dictionary() for user in users]
+        return users
+
+def insert_request_for_coins(file):
+    with Session(autoflush=False, bind=engine) as db:
+        # req = Request_for_coin(id_user = user, id_achievement = achievement, comment_s = comment_sotr, id_status = status)
+        req =Request_for_coin(id_user = file['id_user'], id_achievement = file['id_achievement'], comment_s = file['comment_s'], id_status = 1)
+        db.add(req)
+        db.commit()
+
+def get_request_for_coins(user_id):
+    with Session(autoflush=False, bind=engine) as db:
+        coins = list(db.query(Request_for_coin).filter_by(id_user = user_id))
+        coins = [coin.Get_dictionary() for coin in coins]
+        return coins
+
+def get_request_for_merch(user_id):
+    with Session(autoflush=False, bind=engine) as db:
+        merch = list(db.query(Request_for_merch).filter_by(id_user = user_id))
+        merch = [m.Get_dictionary() for m in merch]
+        return merch
+
+def login(telegram_id):
+    with Session(autoflush=False, bind=engine) as db:
+        telegram = list(db.query(Users))
+        telegram = [t.Get_dictionary() for t in telegram]
+        for t in telegram:
+            if telegram_id == t['id_telegram']:
+                return True
+            else:
+                return False
+
+#Достижения            
+def get_achievements():
+    with Session(autoflush=False, bind=engine) as db:
+        achiv = list(db.query(Achievements))
+        achiv = [ac.Get_dictionary() for ac in achiv]
+        return achiv
+        # json.dump(achiv, ensure_ascii=False, indent=4)
+#         # for i in achiv:
+#         #     print(i["name"])
+
+# print(get_balance(2)[0])
+
