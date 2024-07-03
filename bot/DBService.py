@@ -29,16 +29,14 @@ class Users(Base):
     id_user = Column(Integer, primary_key =True)
     name = Column(String(100), nullable = False)
     lastname = Column(String(100), nullable = False)
-    telephone = Column(String(100), nullable = False) # проверить тип атрибута и нужно ли номер вообще использовать
     balance = Column(Integer, nullable = False)
     id_role = Column(Integer, ForeignKey('role.id_role')) # нужно название таблицы на которую ссылается внешний ключ
-    id_telegram = Column(Integer, nullable = False)
 
     def Get_dictionary(this):
-        return {"id_user": this.id_user, "name": this.name, "lastname": this.lastname, "telephone": this.telephone, "balance": this.balance, "id_role": this.id_role, "id_telegram": this.id_telegram}
+        return {"id_user": this.id_user, "name": this.name, "lastname": this.lastname, "balance": this.balance, "id_role": this.id_role}
 
     def Get_description(this):
-        return f"{this.id_user} {this.name} {this.lastname} {this.telephone} {this.balance} {this.id_role} {this.id_telegram}"
+        return f"{this.id_user} {this.name} {this.lastname} {this.balance} {this.id_role}"
 
 class Achievements(Base):
     __tablename__ = 'achievements'
@@ -56,7 +54,7 @@ class Achievements(Base):
 class Request_for_merch(Base):
     __tablename__ = 'request_for_merch'
     id_request_for_merch = Column(Integer, primary_key =True)
-    id_user = Column(Integer, ForeignKey('users.id_telegram'))
+    id_user = Column(Integer, ForeignKey('users.id_user'))
     id_product = Column(Integer, ForeignKey('products.id_product'))
     comment_hr = Column(String, nullable = False)
     comment_s = Column(String, nullable = False)
@@ -71,7 +69,7 @@ class Request_for_merch(Base):
 class Request_for_coin(Base):
     __tablename__ = 'request_for_coin'
     id_request_for_coin = Column(Integer, primary_key =True)
-    id_user = Column(Integer, ForeignKey('users.id_telegram')) 
+    id_user = Column(Integer, ForeignKey('users.id_user')) 
     id_achievement = Column(Integer, ForeignKey('achievements.id_achievement'))
     comment_hr = Column(String, nullable = False)
     comment_s = Column(String, nullable = False)
