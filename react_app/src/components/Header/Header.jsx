@@ -42,7 +42,7 @@ const {tg} = UseTelegram();
 
     return (
       <header className="Header">
-        {balance !== null ? <span>{balance}</span> : <span>Загрузка...</span>}
+        {balance !== null ? <span>{balance}</span> : <span>0</span>}
         <h1>{title}</h1>
         
       </header>
