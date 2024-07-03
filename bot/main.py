@@ -1,6 +1,7 @@
 import os
 import telebot
 import DBService
+from DBService import get_achievements
 from telebot import types
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -84,28 +85,28 @@ def get_balance():
    balance = DBService.get_balance(id)[0] # Метод возвращает список словарей. Что делать, если строк в таблице несколько для одного айдишника?
    return jsonify(balance)
 
-def load_achievements():
-    with open('achievements.json', 'r', encoding='utf-8') as f:
-        return json.load(f)
+# def load_achievements():
+#     with open('achievements.json', 'r', encoding='utf-8') as f:
+#         return json.load(f)
 
 @app.route('/api/getAchievements', methods=['GET'])
-def get_achievements():
+def get_achievement():
     # achievements = load_achievements()
     achievements = get_achievements()
     return jsonify(achievements)
 
-@app.route('/api/getAchievements', methods=['POST'])
-def puch_Request_for_coin():
-        if 'file' not in request.files:
-            return jsonify({"error": "No file part"}), 400
-        file = request.files['file']
+# @app.route('/api/getAchievements', methods=['POST'])
+# def puch_Request_for_coin():
+#         if 'file' not in request.files:
+#             return jsonify({"error": "No file part"}), 400
+#         file = request.files['file']
 
-        # Проверяем, выбран ли файл
-        if file:
-                # Сохраняем файл в указанную директорию
-            filename = file.filename
-            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            file.save(filepath)
+#         # Проверяем, выбран ли файл
+#         if file:
+#                 # Сохраняем файл в указанную директорию
+#             filename = file.filename
+#             filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+#             file.save(filepath)
 
 def run_flask():
     port = int(os.getenv('PORT', 5000))
