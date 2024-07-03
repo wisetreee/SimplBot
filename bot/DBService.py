@@ -56,7 +56,7 @@ class Achievements(Base):
 class Request_for_merch(Base):
     __tablename__ = 'request_for_merch'
     id_request_for_merch = Column(Integer, primary_key =True)
-    id_user = Column(Integer, ForeignKey('users.id_user'))
+    id_user = Column(Integer, ForeignKey('users.id_telegram'))
     id_product = Column(Integer, ForeignKey('products.id_product'))
     comment_hr = Column(String, nullable = False)
     comment_s = Column(String, nullable = False)
@@ -71,7 +71,7 @@ class Request_for_merch(Base):
 class Request_for_coin(Base):
     __tablename__ = 'request_for_coin'
     id_request_for_coin = Column(Integer, primary_key =True)
-    id_user = Column(Integer, ForeignKey('users.id_user')) 
+    id_user = Column(Integer, ForeignKey('users.id_telegram')) 
     id_achievement = Column(Integer, ForeignKey('achievements.id_achievement'))
     comment_hr = Column(String, nullable = False)
     comment_s = Column(String, nullable = False)
