@@ -56,8 +56,8 @@ class Request_for_merch(Base):
     id_request_for_merch = Column(Integer, primary_key =True)
     id_user = Column(Integer, ForeignKey('users.id_user'))
     id_product = Column(Integer, ForeignKey('products.id_product'))
-    comment_hr = Column(String, nullable = False)
-    comment_s = Column(String, nullable = False)
+    comment_hr = Column(String(150), nullable = True)
+    comment_s = Column(String(150), nullable = False)
     id_status = Column(Integer, ForeignKey('status.id_status'))
 
     def Get_dictionary(this):
@@ -71,8 +71,8 @@ class Request_for_coin(Base):
     id_request_for_coin = Column(Integer, primary_key =True)
     id_user = Column(Integer, ForeignKey('users.id_user')) 
     id_achievement = Column(Integer, ForeignKey('achievements.id_achievement'))
-    comment_hr = Column(String, nullable = False)
-    comment_s = Column(String, nullable = False)
+    comment_hr = Column(String(150), nullable = True)
+    comment_s = Column(String(150), nullable = False)
     id_status = Column(Integer, ForeignKey('status.id_status'))
 
     def Get_dictionary(this):
