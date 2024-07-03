@@ -8,7 +8,7 @@ const ReqForCoinsForm = () => {
   const [selectedAchievement, setSelectedAchievement] = useState('');
   const [comment, setComment] = useState('');
   const [isReadyToSubmit, setIsReadyToSubmit] = useState(false);
-
+  const navigate = useNavigate();
   
 
   useEffect(() => {
@@ -84,7 +84,7 @@ const ReqForCoinsForm = () => {
       console.error('Error submitting application:', error);
     }
 
-    useNavigate.navigate('/')
+    navigate('/')
 
 
   };
