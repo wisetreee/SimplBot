@@ -104,12 +104,4 @@ def run_flask():
     serve(app, host='0.0.0.0', port=port)
 
 if __name__ == '__main__':
-    # Запуск Flask и бота параллельно
-    flask_thread = Thread(target=run_flask)
-    flask_thread.start()
-
-    bot.remove_webhook()
-    bot.set_webhook(url=URL + TOKEN)
-
-    # Запуск бота в режиме polling для обработки сообщений
-   #  bot.polling(none_stop=True)
+     app.run(ssl_context=('simplbot.pem', 'simplbot-key.pem'), debug=True, port=5000)

@@ -1,9 +1,14 @@
 import React, { useState, useEffect , useCallback} from 'react';
+import {UseTelegram} from "/src/hooks/UseTelegram";
+import  './Header.css';
+
 
 
 
 const Header = ({ title }) => {
-  
+const {tg} = UseTelegram();
+
+
  const [balance, setBalance] = useState(null);  
   useEffect(() => { //при обновлении страницы будет вычисляться баланс
 
@@ -21,7 +26,7 @@ const Header = ({ title }) => {
     //   }
     // };
 
-      fetch('https://simplbot.loca.lt/api/getBalance')
+      fetch('https://simplbot.onrender.com/api/getBalance')
         .then((res) => res.json())
         .then((data) => {
           setBalance(data.balance);
@@ -36,9 +41,10 @@ const Header = ({ title }) => {
 
 
     return (
-      <header>
+      <header className="Header">
+        {balance !== null ? <span>{balance}</span> : <span>0</span>}
         <h1>{title}</h1>
-        {balance !== null ? <span>{balance}</span> : <span>Загрузка...</span>}
+        
       </header>
     );
   };
