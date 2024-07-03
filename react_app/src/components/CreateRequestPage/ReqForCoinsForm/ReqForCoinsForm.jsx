@@ -12,7 +12,7 @@ const ReqForCoinsForm = () => {
   
 
   useEffect(() => {
-    tg.MainButton.setBackgroundColor('#F23D3D');
+    
     // Fetch achievements from the backend
     const fetchAchievements = async () => {
       try {
@@ -32,6 +32,7 @@ const ReqForCoinsForm = () => {
     // Update the main button state based on form completeness
    
     tg.MainButton.setParams({ text: "Отправить" });
+    tg.MainButton.color = '#f23d3d';
 
     if (selectedAchievement && comment) {
       tg.MainButton.show();
