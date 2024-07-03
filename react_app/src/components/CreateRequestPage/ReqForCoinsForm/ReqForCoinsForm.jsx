@@ -3,6 +3,7 @@ import './ReqForCoinsForm.css';
 import {UseTelegram} from "/src/hooks/UseTelegram";
 import { useNavigate } from 'react-router-dom';
 const ReqForCoinsForm = () => {
+  const tg = window.Telegram.WebApp;
   const [achievements, setAchievements] = useState([]);
   const [selectedAchievement, setSelectedAchievement] = useState('');
   const [comment, setComment] = useState('');
@@ -29,7 +30,7 @@ const ReqForCoinsForm = () => {
 
   useEffect(() => {
     // Update the main button state based on form completeness
-    const tg = window.Telegram.WebApp;
+   
     tg.MainButton.setParams({ text: "Отправить" });
 
     if (selectedAchievement && comment) {
