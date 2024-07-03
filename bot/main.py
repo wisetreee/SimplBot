@@ -8,7 +8,6 @@ from configparser import ConfigParser
 import json
 from waitress import serve
 from threading import Thread
-
 app = Flask(__name__, static_folder="react_app") # инициализация Flask-приложения
 CORS(app) 
 
@@ -91,8 +90,22 @@ def load_achievements():
 
 @app.route('/api/getAchievements', methods=['GET'])
 def get_achievements():
-    achievements = load_achievements()
+    # achievements = load_achievements()
+    achievements = get_achievements()
     return jsonify(achievements)
+
+@app.route('/api/getAchievements', methods=['POST'])
+def puch_Request_for_coin():
+        if 'file' not in request.files:
+            return jsonify({"error": "No file part"}), 400
+        file = request.files['file']
+
+        # Проверяем, выбран ли файл
+        if file:
+                # Сохраняем файл в указанную директорию
+            filename = file.filename
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(filepath)
 
 def run_flask():
     port = int(os.getenv('PORT', 5000))

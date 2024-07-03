@@ -150,11 +150,9 @@ def get_achievements():
     with Session(autoflush=False, bind=engine) as db:
         achiv = list(db.query(Achievements))
         achiv = [ac.Get_dictionary() for ac in achiv]
-        
-        with open('bot/achievements.json', 'w', encoding='utf-8') as f:
-            json.dump(achiv, f, ensure_ascii=False, indent=4)
-        # for i in achiv:
-        #     print(i["name"])
+        return json.dump(achiv, ensure_ascii=False, indent=4)
+#         # for i in achiv:
+#         #     print(i["name"])
 
 # print(get_balance(2)[0])
 
