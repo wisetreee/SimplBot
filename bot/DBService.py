@@ -120,7 +120,7 @@ def get_balance(user_id):
 def insert_request_for_coins(file):
     with Session(autoflush=False, bind=engine) as db:
         # req = Request_for_coin(id_user = user, id_achievement = achievement, comment_s = comment_sotr, id_status = status)
-        req =Request_for_coin(id_user = file['id_user'], id_achievement = file['id_achivment'], comment_s = file['comment_s'], id_status = 1)
+        req =Request_for_coin(id_user = file['id_user'], id_achievement = file['id_achievement'], comment_s = file['comment_s'], id_status = 1)
         db.add(req)
         db.commit()
 
