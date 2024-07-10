@@ -16,7 +16,7 @@ CORS(app)
 
 # # host = os.getenv('FLASK_HOST', '127.0.0.1')
 # port = os.getenv('FLASK_PORT', '5000')
-TOKEN="7409866729:AAFOHZ51bByoojzbKA_5IDGT8MFb9oO3BYE"
+TOKEN=""
 URL="https://simplbot.onrender.com/"
 
 bot = telebot.TeleBot(TOKEN)
